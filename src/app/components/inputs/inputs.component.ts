@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-inputs',
@@ -6,12 +6,14 @@ import { Component, OnInit } from '@angular/core'
     styleUrls: ['./inputs.component.less'],
 })
 export class InputsComponent implements OnInit {
-    endpointUrl = ''
+    numRequests = 1;
+    endpointUrl = '';
     constructor() {}
 
     ngOnInit(): void {}
 
     onStartClicked() {
-        console.log(this.endpointUrl)
+        console.log(this.numRequests);
+        console.log(this.endpointUrl);
     }
 }
