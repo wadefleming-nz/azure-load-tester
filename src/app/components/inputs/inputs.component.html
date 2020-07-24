@@ -1,1 +1,11 @@
-<p>inputs works!</p>
+<form>
+    <label for="endpointUrl">Endpoint URL</label>
+    <input
+        type="url"
+        id="endpointUrl"
+        name="endpointUrl"
+        [(ngModel)]="endpointUrl"
+    /><button (click)="onStartClicked()">
+        Start
+    </button>
+</form>
