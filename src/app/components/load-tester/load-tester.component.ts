@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-load-tester',
-  templateUrl: './load-tester.component.html',
-  styleUrls: ['./load-tester.component.less']
+    selector: 'app-load-tester',
+    templateUrl: './load-tester.component.html',
+    styleUrls: ['./load-tester.component.less'],
 })
-export class LoadTesterComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class LoadTesterComponent {
+    onStartClicked(testInstance: { numRequests: number; endpointUrl: string }) {
+        console.log(testInstance.numRequests);
+        console.log(testInstance.endpointUrl);
+    }
 }
