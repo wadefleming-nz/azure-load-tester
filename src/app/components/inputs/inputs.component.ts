@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { TestInstance } from 'src/app/models/test-instance.model';
 
 @Component({
     selector: 'app-inputs',
@@ -10,10 +11,7 @@ export class InputsComponent {
     endpointUrl = '';
 
     @Output()
-    startClicked = new EventEmitter<{
-        numRequests: number;
-        endpointUrl: string;
-    }>();
+    startClicked = new EventEmitter<TestInstance>();
 
     onStartClicked() {
         this.startClicked.emit({

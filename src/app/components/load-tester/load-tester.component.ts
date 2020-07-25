@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TestInstance } from 'src/app/models/test-instance.model';
 
 @Component({
     selector: 'app-load-tester',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./load-tester.component.less'],
 })
 export class LoadTesterComponent {
-    onStartClicked(testInstance: { numRequests: number; endpointUrl: string }) {
+    onStartClicked(testInstance: TestInstance) {
         console.log(testInstance.numRequests);
         console.log(testInstance.endpointUrl);
     }
