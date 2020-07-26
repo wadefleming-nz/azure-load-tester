@@ -10,6 +10,9 @@ import { ChartableRequestMetrics } from '../../models/chartable-request-metrics.
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
+    timeAxisMaxSeconds = 300;
+    visibleRange = [0, this.timeAxisMaxSeconds];
+
     data$ = this.requestManager.testInstanceResult$.pipe(
         filter((result) => !!result),
         scan(
