@@ -7,8 +7,6 @@ import {
     filter,
     map,
     share,
-    delay,
-    repeat,
     takeWhile,
 } from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
@@ -25,19 +23,23 @@ export class RequestManagerService {
     testInstanceResult$ = this.testInstanceSubject.pipe(
         filter((ti) => !!ti),
         switchMap((ti) =>
-            this.http
-                .get<FunctionStartResponse>(ti.endpointUrl)
-                .pipe(
-                    switchMap((startResponse) =>
-                        this.pollStatus(startResponse.statusQueryGetUri)
+            this.startFunction(ti.endpointUrl).pipe(
+                switchMap((startResponse) =>
+                    this.pollFunctionUntilComplete(
+                        startResponse.statusQueryGetUri
                     )
                 )
+            )
         ),
         catchError((err) => of(`Error: ${JSON.stringify(err)}`)),
         share()
     );
 
-    pollStatus(statusUrl: string) {
+    startFunction(functionUrl: string) {
+        return this.http.get<FunctionStartResponse>(functionUrl);
+    }
+
+    pollFunctionUntilComplete(statusUrl: string) {
         return interval(this.statusPollDelay).pipe(
             switchMap(() => this.getStatus(statusUrl)),
             takeWhile((status) => status != 'Completed', true)
