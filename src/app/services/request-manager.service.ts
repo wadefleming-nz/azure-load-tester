@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, of, interval } from 'rxjs';
+import { BehaviorSubject, of, timer } from 'rxjs';
 import {
     switchMap,
     catchError,
@@ -17,7 +17,7 @@ import { FunctionStatusResponse } from '../models/function-status-response.model
     providedIn: 'root',
 })
 export class RequestManagerService {
-    statusPollDelay = 5 * 1000;
+    statusPollDelay = 3 * 1000;
     testInstanceSubject = new BehaviorSubject<TestInstance>(null);
 
     testInstanceResult$ = this.testInstanceSubject.pipe(
@@ -40,7 +40,7 @@ export class RequestManagerService {
     }
 
     pollFunctionUntilComplete(statusUrl: string) {
-        return interval(this.statusPollDelay).pipe(
+        return timer(0, this.statusPollDelay).pipe(
             switchMap(() => this.getStatus(statusUrl)),
             takeWhile((status) => status != 'Completed', true)
         );
