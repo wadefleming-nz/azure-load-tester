@@ -8,6 +8,10 @@ import { of } from 'rxjs';
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
-    dataSource$ = of([]);
+    data$ = of([
+        { id: 3, elapsedSeconds: 30 },
+        { id: 2, elapsedSeconds: 178 },
+        { id: 1, elapsedSeconds: 210 },
+    ]);
     constructor(public requestManager: RequestManagerService) {}
 }

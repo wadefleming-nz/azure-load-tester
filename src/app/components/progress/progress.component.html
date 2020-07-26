@@ -1,10 +1,12 @@
 <p>{{ requestManager.testInstanceResult$ | async }}</p>
-<dx-chart id="chart" [dataSource]="dataSource$ | async" [rotated]="true">
+<dx-chart id="chart" [dataSource]="data$ | async" [rotated]="true">
     <dxi-series
         argumentField="id"
-        valueField="currTime"
+        valueField="elapsedSeconds"
         type="bar"
         color="#ffaa66"
     >
     </dxi-series>
+    <dxo-argument-axis type="discrete"></dxo-argument-axis>
+    <dxi-value-axis title="Elapsed Seconds"></dxi-value-axis>
 </dx-chart>
