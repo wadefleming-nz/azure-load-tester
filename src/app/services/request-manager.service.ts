@@ -15,22 +15,23 @@ export class RequestManagerService {
     testInstanceResult$ = this.testInstanceSubject.pipe(
         filter((ti) => !!ti),
         switchMap((ti) =>
-            this.http.get<FunctionStartResponse>(ti.endpointUrl).pipe(
-                switchMap((startResponse) => {
-                    const statusUrl = startResponse.statusQueryGetUri;
-                    return this.http
-                        .get<FunctionStatusResponse>(statusUrl)
-                        .pipe(
-                            map(
-                                (statusResponse) => statusResponse.runtimeStatus
-                            )
-                        );
-                })
-            )
+            this.http
+                .get<FunctionStartResponse>(ti.endpointUrl)
+                .pipe(
+                    switchMap((startResponse) =>
+                        this.pollStatus(startResponse.statusQueryGetUri)
+                    )
+                )
         ),
         catchError((err) => of(`Error: ${JSON.stringify(err)}`)),
         share()
     );
+
+    pollStatus(statusUrl: string) {
+        return this.http
+            .get<FunctionStatusResponse>(statusUrl)
+            .pipe(map((statusResponse) => statusResponse.runtimeStatus));
+    }
 
     constructor(private http: HttpClient) {}
 }
