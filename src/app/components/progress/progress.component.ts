@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
-import { of } from 'rxjs';
+import { map, scan, filter } from 'rxjs/operators';
+import { RequestMetrics } from '../../models/request-metrics.model';
+import { ChartableRequestMetrics } from '../../models/chartable-request-metrics.model';
 
 @Component({
     selector: 'app-progress',
@@ -8,10 +10,38 @@ import { of } from 'rxjs';
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
-    data$ = of([
-        { id: 3, elapsedSeconds: 30 },
-        { id: 2, elapsedSeconds: 178 },
-        { id: 1, elapsedSeconds: 210 },
-    ]);
-    constructor(public requestManager: RequestManagerService) {}
+    data$ = this.requestManager.testInstanceResult$.pipe(
+        filter((result) => !!result),
+        scan(
+            (acc, value) => ({ ...acc, currTime: new Date(), status: value }),
+            {
+                id: 1,
+                startTime: new Date(),
+                currTime: new Date(),
+                status: 'None',
+            }
+        ),
+        map((status) => [this.createChartableRequestMetrics(status)])
+    );
+
+    constructor(public requestManager: RequestManagerService) {
+        this.data$.subscribe(console.log);
+    }
+
+    private createChartableRequestMetrics(
+        requestMetrics: RequestMetrics
+    ): ChartableRequestMetrics {
+        return {
+            id: requestMetrics.id,
+            elapsedSeconds: this.getElapsedSecondsBetween(
+                requestMetrics.startTime,
+                requestMetrics.currTime
+            ),
+        };
+    }
+
+    private getElapsedSecondsBetween(date1: Date, date2: Date) {
+        const milliSecondsDiff = date2.getTime() - date1.getTime();
+        return milliSecondsDiff / 1000;
+    }
 }
