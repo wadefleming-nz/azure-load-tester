@@ -1,4 +1,4 @@
-export interface SolveStartResponse {
+export interface FunctionStartResponse {
     id: string;
     statusQueryGetUri: string;
     sendEventPostUri: string;

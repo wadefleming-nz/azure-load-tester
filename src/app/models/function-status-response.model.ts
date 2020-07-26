@@ -1,4 +1,4 @@
-export interface SolveStatusResponse {
+export interface FunctionStatusResponse {
     name: string;
     instanceId: string;
     runtimeStatus: string;
