@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, of } from 'rxjs';
-import { switchMap, catchError, filter, map, share } from 'rxjs/operators';
+import { BehaviorSubject, of, interval } from 'rxjs';
+import {
+    switchMap,
+    catchError,
+    filter,
+    map,
+    share,
+    delay,
+    repeat,
+    takeWhile,
+} from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
 import { FunctionStatusResponse } from '../models/function-status-response.model';
@@ -10,6 +19,7 @@ import { FunctionStatusResponse } from '../models/function-status-response.model
     providedIn: 'root',
 })
 export class RequestManagerService {
+    statusPollDelay = 5 * 1000;
     testInstanceSubject = new BehaviorSubject<TestInstance>(null);
 
     testInstanceResult$ = this.testInstanceSubject.pipe(
@@ -28,6 +38,13 @@ export class RequestManagerService {
     );
 
     pollStatus(statusUrl: string) {
+        return interval(this.statusPollDelay).pipe(
+            switchMap(() => this.getStatus(statusUrl)),
+            takeWhile((status) => status != 'Completed', true)
+        );
+    }
+
+    getStatus(statusUrl: string) {
         return this.http
             .get<FunctionStatusResponse>(statusUrl)
             .pipe(map((statusResponse) => statusResponse.runtimeStatus));
