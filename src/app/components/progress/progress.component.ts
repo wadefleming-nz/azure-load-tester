@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'app-progress',
@@ -7,5 +8,6 @@ import { RequestManagerService } from 'src/app/services/request-manager.service'
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
+    dataSource$ = of([]);
     constructor(public requestManager: RequestManagerService) {}
 }

@@ -1,1 +1,10 @@
 <p>{{ requestManager.testInstanceResult$ | async }}</p>
+<dx-chart id="chart" [dataSource]="dataSource$ | async" [rotated]="true">
+    <dxi-series
+        argumentField="id"
+        valueField="currTime"
+        type="bar"
+        color="#ffaa66"
+    >
+    </dxi-series>
+</dx-chart>
