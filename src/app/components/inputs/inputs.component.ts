@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { TestInstance } from 'src/app/models/test-instance.model';
+import { RequestManagerService } from 'src/app/services/request-manager.service';
 
 @Component({
     selector: 'app-inputs',
@@ -13,8 +14,11 @@ export class InputsComponent {
     @Output()
     startClicked = new EventEmitter<TestInstance>();
 
+    constructor(public requestManager: RequestManagerService) {}
+
     onStartClicked() {
-        this.startClicked.emit({
+        this.requestManager.testInstanceSubject.next({
+            // TODO use setter
             numRequests: this.numRequests,
             endpointUrl: this.endpointUrl,
         });
