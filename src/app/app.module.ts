@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { InputsComponent } from './components/inputs/inputs.component';
 import { LoadTesterComponent } from './components/load-tester/load-tester.component';
 import { ProgressComponent } from './components/progress/progress.component';
+import { DxChartModule } from 'devextreme-angular';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,7 @@ import { ProgressComponent } from './components/progress/progress.component';
         LoadTesterComponent,
         ProgressComponent,
     ],
-    imports: [BrowserModule, FormsModule, HttpClientModule],
+    imports: [BrowserModule, FormsModule, HttpClientModule, DxChartModule],
     providers: [],
     bootstrap: [AppComponent],
 })
