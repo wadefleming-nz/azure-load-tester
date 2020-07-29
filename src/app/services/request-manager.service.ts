@@ -16,6 +16,7 @@ import { FunctionStartResponse } from '../models/function-start-response.model';
 import { FunctionStatusResponse } from '../models/function-status-response.model';
 import { Activity } from '../models/activity.model';
 import { RequestMetrics } from '../models/request-metrics.model';
+import { getElapsedSecondsBetween } from '../utils/time.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -56,13 +57,7 @@ export class RequestManagerService {
                         )
                     ),
                     this.accumulateRequestMetrics(id),
-                    map((metrics) => ({
-                        requestId: metrics.requestId,
-                        secondsDuration: this.getElapsedSecondsBetween(
-                            metrics.startTime,
-                            metrics.currTime
-                        ),
-                    }))
+                    this.convertToActivity
                 )
             )
         );
@@ -102,8 +97,17 @@ export class RequestManagerService {
             );
     }
 
-    private getElapsedSecondsBetween(date1: Date, date2: Date) {
-        const milliSecondsDiff = date2.getTime() - date1.getTime();
-        return milliSecondsDiff / 1000;
+    convertToActivity(
+        metrics: Observable<RequestMetrics>
+    ): Observable<Activity> {
+        return metrics.pipe(
+            map((metrics) => ({
+                requestId: metrics.requestId,
+                secondsDuration: getElapsedSecondsBetween(
+                    metrics.startTime,
+                    metrics.currTime
+                ),
+            }))
+        );
     }
 }
