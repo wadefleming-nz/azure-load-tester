@@ -51,11 +51,7 @@ export class RequestManagerService {
         return of([id]).pipe(
             switchMap(() =>
                 this.startFunction(requestUrl).pipe(
-                    switchMap((startResponse) =>
-                        this.pollFunctionUntilComplete(
-                            startResponse.statusQueryGetUri
-                        )
-                    ),
+                    this.pollFunction.bind(this),
                     this.accumulateRequestMetrics(id),
                     this.convertToActivity
                 )
@@ -65,6 +61,14 @@ export class RequestManagerService {
 
     startFunction(functionUrl: string) {
         return this.http.get<FunctionStartResponse>(functionUrl);
+    }
+
+    pollFunction(startResponse: Observable<FunctionStartResponse>) {
+        return startResponse.pipe(
+            switchMap((startResponse) =>
+                this.pollFunctionUntilComplete(startResponse.statusQueryGetUri)
+            )
+        );
     }
 
     pollFunctionUntilComplete(statusUrl: string) {
