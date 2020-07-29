@@ -3,6 +3,7 @@ import { RequestManagerService } from 'src/app/services/request-manager.service'
 import { map, scan, filter } from 'rxjs/operators';
 import { RequestMetrics } from '../../models/request-metrics.model';
 import { ChartableRequestMetrics } from '../../models/chartable-request-metrics.model';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'app-progress',
@@ -13,19 +14,20 @@ export class ProgressComponent {
     timeAxisMaxSeconds = 300;
     visibleRange = [0, this.timeAxisMaxSeconds];
 
-    data$ = this.requestManager.testInstanceResult$.pipe(
-        filter((result) => !!result),
-        scan(
-            (acc, value) => ({ ...acc, currTime: new Date(), status: value }),
-            {
-                id: 1,
-                startTime: new Date(),
-                currTime: new Date(),
-                status: 'None',
-            }
-        ),
-        map((status) => [this.createChartableRequestMetrics(status)])
-    );
+    data$ = of([]);
+    // this.requestManager.testInstanceResults$.pipe(
+    //     filter((result) => !!result),
+    //     scan(
+    //         (acc, value) => ({ ...acc, currTime: new Date(), status: value }),
+    //         {
+    //             id: 1,
+    //             startTime: new Date(),
+    //             currTime: new Date(),
+    //             status: 'None',
+    //         }
+    //     ),
+    //     map((status) => [this.createChartableRequestMetrics(status)])
+    // );
 
     constructor(public requestManager: RequestManagerService) {
         this.data$.subscribe(console.log);
