@@ -1,6 +1,5 @@
 export interface RequestMetrics {
-    id: number;
+    requestId: number;
     startTime: Date;
     currTime: Date;
-    status: string;
 }

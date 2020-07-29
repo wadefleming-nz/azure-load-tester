@@ -15,6 +15,7 @@ import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
 import { FunctionStatusResponse } from '../models/function-status-response.model';
 import { Activity } from '../models/activity.model';
+import { RequestMetrics } from '../models/request-metrics.model';
 
 @Injectable({
     providedIn: 'root',
@@ -54,7 +55,7 @@ export class RequestManagerService {
                             startResponse.statusQueryGetUri
                         )
                     ),
-                    scan(
+                    scan<unknown, RequestMetrics>(
                         (acc) => ({
                             ...acc,
                             endTime: new Date(),
@@ -62,14 +63,14 @@ export class RequestManagerService {
                         {
                             requestId: id,
                             startTime: new Date(),
-                            endTime: new Date(),
+                            currTime: new Date(),
                         }
                     ),
-                    map((activity) => ({
-                        requestId: activity.requestId,
+                    map((metrics) => ({
+                        requestId: metrics.requestId,
                         duration: this.getElapsedSecondsBetween(
-                            activity.startTime,
-                            activity.endTime
+                            metrics.startTime,
+                            metrics.currTime
                         ),
                     }))
                 )
