@@ -55,17 +55,7 @@ export class RequestManagerService {
                             startResponse.statusQueryGetUri
                         )
                     ),
-                    scan<unknown, RequestMetrics>(
-                        (acc) => ({
-                            ...acc,
-                            currTime: new Date(),
-                        }),
-                        {
-                            requestId: id,
-                            startTime: new Date(),
-                            currTime: new Date(),
-                        }
-                    ),
+                    this.accumulateRequestMetrics(id),
                     map((metrics) => ({
                         requestId: metrics.requestId,
                         secondsDuration: this.getElapsedSecondsBetween(
@@ -93,6 +83,23 @@ export class RequestManagerService {
         return this.http
             .get<FunctionStatusResponse>(statusUrl)
             .pipe(map((statusResponse) => statusResponse.runtimeStatus));
+    }
+
+    accumulateRequestMetrics(id: number) {
+        return (statusResponse: Observable<string>) =>
+            statusResponse.pipe(
+                scan<unknown, RequestMetrics>(
+                    (acc) => ({
+                        ...acc,
+                        currTime: new Date(),
+                    }),
+                    {
+                        requestId: id,
+                        startTime: new Date(),
+                        currTime: new Date(),
+                    }
+                )
+            );
     }
 
     private getElapsedSecondsBetween(date1: Date, date2: Date) {
