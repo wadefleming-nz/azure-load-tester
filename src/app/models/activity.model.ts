@@ -1,4 +1,4 @@
 export interface Activity {
     requestId: number;
-    duration: number;
+    secondsDuration: number;
 }

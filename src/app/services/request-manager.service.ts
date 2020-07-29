@@ -58,7 +58,7 @@ export class RequestManagerService {
                     scan<unknown, RequestMetrics>(
                         (acc) => ({
                             ...acc,
-                            endTime: new Date(),
+                            currTime: new Date(),
                         }),
                         {
                             requestId: id,
@@ -68,7 +68,7 @@ export class RequestManagerService {
                     ),
                     map((metrics) => ({
                         requestId: metrics.requestId,
-                        duration: this.getElapsedSecondsBetween(
+                        secondsDuration: this.getElapsedSecondsBetween(
                             metrics.startTime,
                             metrics.currTime
                         ),
