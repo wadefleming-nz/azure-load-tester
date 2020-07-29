@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, of, timer, combineLatest } from 'rxjs';
+import { BehaviorSubject, of, timer, combineLatest, Observable } from 'rxjs';
 import {
     switchMap,
     catchError,
     filter,
     map,
+    tap,
     share,
     takeWhile,
+    scan,
 } from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
 import { FunctionStatusResponse } from '../models/function-status-response.model';
+import { Activity } from '../models/activity.model';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +29,12 @@ export class RequestManagerService {
         share()
     );
 
+    constructor(private http: HttpClient) {
+        this.testInstanceResults$.subscribe((x) =>
+            console.log(JSON.stringify(x))
+        );
+    }
+
     getResults(numRequests: number, requestUrl: string) {
         const requests$ = Array.from(Array(numRequests), (_, i) =>
             this.createRequestObservable(i + 1, requestUrl)
@@ -33,7 +42,10 @@ export class RequestManagerService {
         return combineLatest(requests$);
     }
 
-    createRequestObservable(id: number, requestUrl: string) {
+    createRequestObservable(
+        id: number,
+        requestUrl: string
+    ): Observable<Activity> {
         return of([id]).pipe(
             switchMap(() =>
                 this.startFunction(requestUrl).pipe(
@@ -42,7 +54,24 @@ export class RequestManagerService {
                             startResponse.statusQueryGetUri
                         )
                     ),
-                    map((status) => ({ id, status: status }))
+                    scan(
+                        (acc) => ({
+                            ...acc,
+                            endTime: new Date(),
+                        }),
+                        {
+                            requestId: id,
+                            startTime: new Date(),
+                            endTime: new Date(),
+                        }
+                    ),
+                    map((activity) => ({
+                        requestId: activity.requestId,
+                        duration: this.getElapsedSecondsBetween(
+                            activity.startTime,
+                            activity.endTime
+                        ),
+                    }))
                 )
             )
         );
@@ -65,9 +94,8 @@ export class RequestManagerService {
             .pipe(map((statusResponse) => statusResponse.runtimeStatus));
     }
 
-    constructor(private http: HttpClient) {
-        this.testInstanceResults$.subscribe((x) =>
-            console.log(JSON.stringify(x))
-        );
+    private getElapsedSecondsBetween(date1: Date, date2: Date) {
+        const milliSecondsDiff = date2.getTime() - date1.getTime();
+        return milliSecondsDiff / 1000;
     }
 }
