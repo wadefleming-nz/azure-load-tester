@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
 import { Activity } from '../../models/activity.model';
-import { Dictionary } from '../../utils/dictionary.utils';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-progress',
@@ -13,6 +13,7 @@ export class ProgressComponent {
     visibleRange = [0, this.timeAxisMaxSeconds];
 
     data$ = this.requestManager.testInstanceResults$;
+    allCompleted$ = this.requestManager.allCompleted$;
 
     statusColors: Record<string, string> = {
         Pending: '#f25252',

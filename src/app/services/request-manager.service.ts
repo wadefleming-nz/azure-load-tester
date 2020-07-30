@@ -31,6 +31,10 @@ export class RequestManagerService {
         share()
     );
 
+    allCompleted$ = this.testInstanceResults$.pipe(
+        map((activities) => activities.every((a) => a.status === 'Completed'))
+    );
+
     constructor(private http: HttpClient) {
         this.testInstanceResults$.subscribe((x) =>
             console.log(JSON.stringify(x))

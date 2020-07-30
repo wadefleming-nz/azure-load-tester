@@ -3,7 +3,7 @@
     id="chart"
     [dataSource]="data"
     [rotated]="true"
-    [customizeLabel]="customizeLabel"
+    [customizeLabel]="(allCompleted$ | async) && customizeLabel"
     [customizePoint]="customizePoint"
 >
     <dxi-series
