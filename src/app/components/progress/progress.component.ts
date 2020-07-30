@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
 import { Activity } from '../../models/activity.model';
+import { Dictionary } from '../../utils/dictionary.utils';
 
 @Component({
     selector: 'app-progress',
@@ -10,9 +11,14 @@ import { Activity } from '../../models/activity.model';
 export class ProgressComponent {
     timeAxisMaxSeconds = 100;
     visibleRange = [0, this.timeAxisMaxSeconds];
-    completeColor = '#06c723';
 
     data$ = this.requestManager.testInstanceResults$;
+
+    statusColors: Record<string, string> = {
+        Pending: '#f25252',
+        Running: '#f7ae39',
+        Completed: '#06c723',
+    };
 
     constructor(public requestManager: RequestManagerService) {}
 
@@ -28,11 +34,15 @@ export class ProgressComponent {
 
     customizePoint = (arg: any) => {
         const activity = arg.data as Activity;
-        if (activity.status == 'Completed') {
-            return {
-                color: this.completeColor,
-                hoverStyle: { color: this.completeColor },
-            };
-        }
+        return this.getColoredBarPointCustomization(
+            this.statusColors[activity.status]
+        );
     };
+
+    getColoredBarPointCustomization(color: string) {
+        return {
+            color,
+            hoverStyle: { color },
+        };
+    }
 }
