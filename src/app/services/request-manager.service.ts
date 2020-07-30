@@ -87,15 +87,17 @@ export class RequestManagerService {
     accumulateRequestMetrics(id: number) {
         return (statusResponse: Observable<string>) =>
             statusResponse.pipe(
-                scan<unknown, RequestMetrics>(
-                    (acc) => ({
+                scan<string, RequestMetrics>(
+                    (acc, curr) => ({
                         ...acc,
                         currTime: new Date(),
+                        status: curr,
                     }),
                     {
                         requestId: id,
                         startTime: new Date(),
                         currTime: new Date(),
+                        status: '',
                     }
                 )
             );
@@ -111,6 +113,7 @@ export class RequestManagerService {
                     metrics.startTime,
                     metrics.currTime
                 ),
+                status: metrics.status,
             }))
         );
     }
