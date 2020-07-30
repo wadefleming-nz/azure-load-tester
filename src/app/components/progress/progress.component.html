@@ -1,9 +1,9 @@
-<p>{{ requestManager.testInstanceResult$ | async }}</p>
 <dx-chart
     *ngIf="data$ | async as data"
     id="chart"
     [dataSource]="data"
     [rotated]="true"
+    [customizeLabel]="customizeLabel"
 >
     <dxi-series
         argumentField="requestId"

@@ -7,10 +7,17 @@ import { RequestManagerService } from 'src/app/services/request-manager.service'
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
-    timeAxisMaxSeconds = 300;
+    timeAxisMaxSeconds = 100;
     visibleRange = [0, this.timeAxisMaxSeconds];
 
     data$ = this.requestManager.testInstanceResults$;
 
     constructor(public requestManager: RequestManagerService) {}
+
+    customizeLabel = (arg: any) => {
+        return {
+            visible: true,
+            customizeText: (_: any) => arg.value,
+        };
+    };
 }
