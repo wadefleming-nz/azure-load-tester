@@ -1,19 +1,24 @@
 <form>
-    <label for="numRequests">Num of Requests</label>
-    <input
-        type="number"
-        id="numRequests"
-        name="numRequests"
-        [(ngModel)]="numRequests"
-    />
+    <mat-form-field>
+        <mat-label>Num of Requests</mat-label>
+        <input
+            matInput
+            type="number"
+            id="numRequests"
+            name="numRequests"
+            [(ngModel)]="numRequests"
+        />
+    </mat-form-field>
     <br />
-    <label for="endpointUrl">Endpoint URL</label>
-    <input
-        type="url"
-        id="endpointUrl"
-        name="endpointUrl"
-        [(ngModel)]="endpointUrl"
-    /><br /><button (click)="onStartClicked()">
+    <mat-form-field>
+        <mat-label>Endpoint URL</mat-label>
+        <input
+            matInput
+            type="url"
+            id="endpointUrl"
+            name="endpointUrl"
+            [(ngModel)]="endpointUrl" /></mat-form-field
+    ><br /><button mat-raised-button (click)="onStartClicked()" color="primary">
         Start
     </button>
 </form>
