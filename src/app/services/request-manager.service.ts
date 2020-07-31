@@ -35,11 +35,7 @@ export class RequestManagerService {
         map((activities) => activities.every((a) => a.status === 'Completed'))
     );
 
-    constructor(private http: HttpClient) {
-        this.testInstanceResults$.subscribe((x) =>
-            console.log(JSON.stringify(x))
-        );
-    }
+    constructor(private http: HttpClient) {}
 
     getResults(numRequests: number, requestUrl: string) {
         const requests$ = Array.from(Array(numRequests), (_, i) =>
