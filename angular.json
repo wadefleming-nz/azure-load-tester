@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "azure-load-tester"
+  "defaultProject": "azure-load-tester",
+  "cli": {
+    "analytics": false
+  }
 }
