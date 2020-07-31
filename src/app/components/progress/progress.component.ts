@@ -25,7 +25,7 @@ export class ProgressComponent {
 
     customizeLabel = (arg: any) => {
         const activity = arg.data as Activity;
-        if (activity.status == 'Completed') {
+        if (activity.status === 'Completed') {
             return {
                 visible: true,
                 customizeText: (_: any) => arg.value,
