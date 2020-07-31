@@ -1,7 +1,6 @@
 <dx-chart
-    *ngIf="data$ | async as data"
     id="chart"
-    [dataSource]="data"
+    [dataSource]="data$ | async"
     [rotated]="true"
     [customizeLabel]="(allCompleted$ | async) && customizeLabel"
     [customizePoint]="customizePoint"
