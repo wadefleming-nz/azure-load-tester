@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
 import { Activity } from '../../models/activity.model';
-import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-progress',

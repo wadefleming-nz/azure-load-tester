@@ -1,16 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, of, timer, combineLatest, Observable } from 'rxjs';
-import {
-    switchMap,
-    catchError,
-    filter,
-    map,
-    tap,
-    share,
-    takeWhile,
-    scan,
-} from 'rxjs/operators';
+import { switchMap, filter, map, share, takeWhile, scan } from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
 import { FunctionStatusResponse } from '../models/function-status-response.model';
