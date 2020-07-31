@@ -10,7 +10,7 @@ import { RequestManagerService } from 'src/app/services/request-manager.service'
 export class InputsComponent {
     numRequests = 1;
     endpointUrl =
-        'https://titan-functions-consumption.azurewebsites.net/api/DurableFunction_HttpStart?';
+        'https://titan-functions-consumption.azurewebsites.net/api/PrimeNumber_HttpStart?';
 
     @Output()
     startClicked = new EventEmitter<TestInstance>();
