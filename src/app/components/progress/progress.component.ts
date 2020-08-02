@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
+import { ProgressService } from 'src/app/services/progress.service';
 import { Activity } from '../../models/activity.model';
 
 @Component({
@@ -8,11 +9,9 @@ import { Activity } from '../../models/activity.model';
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
-    timeAxisMaxSeconds = 100;
-    visibleRange = [0, this.timeAxisMaxSeconds];
-
     data$ = this.requestManager.testInstanceResults$;
     allCompleted$ = this.requestManager.allCompleted$;
+    visibleRange$ = this.progressService.visibleRange$;
 
     statusColors: Record<string, string> = {
         Pending: '#f25252',
@@ -20,7 +19,10 @@ export class ProgressComponent {
         Completed: '#06c723',
     };
 
-    constructor(public requestManager: RequestManagerService) {}
+    constructor(
+        public requestManager: RequestManagerService,
+        private progressService: ProgressService
+    ) {}
 
     customizeLabel = (arg: any) => {
         const activity = arg.data as Activity;

@@ -15,8 +15,8 @@
     <dxo-argument-axis type="discrete"></dxo-argument-axis>
     <dxi-value-axis
         title="Elapsed Seconds"
-        [wholeRange]="visibleRange"
-        [visualRange]="visibleRange"
+        [wholeRange]="visibleRange$ | async"
+        [visualRange]="visibleRange$ | async"
         visualRangeUpdateMode="keep"
     ></dxi-value-axis>
     <dxo-legend [visible]="false"></dxo-legend>

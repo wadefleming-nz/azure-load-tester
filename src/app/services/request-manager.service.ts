@@ -26,7 +26,18 @@ export class RequestManagerService {
         map((activities) => activities.every((a) => a.status === 'Completed'))
     );
 
-    constructor(private http: HttpClient) {}
+    maxDuration$ = this.testInstanceResults$.pipe(
+        map((activities) =>
+            Math.max(...activities.map((a) => a.secondsDuration))
+        ),
+        filter((maxDuration) => !!maxDuration)
+    );
+
+    constructor(private http: HttpClient) {
+        this.testInstanceResults$.subscribe((x) =>
+            console.log(JSON.stringify(x))
+        );
+    }
 
     getResults(numRequests: number, requestUrl: string) {
         const requests$ = Array.from(Array(numRequests), (_, i) =>
