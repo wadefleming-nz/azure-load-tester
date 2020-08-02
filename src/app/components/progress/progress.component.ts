@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
 import { Activity } from '../../models/activity.model';
+import { FunctionStatus } from '../../enums/function-status.enum';
 
 @Component({
     selector: 'app-progress',
@@ -24,7 +25,7 @@ export class ProgressComponent {
 
     customizeLabel = (arg: any) => {
         const activity = arg.data as Activity;
-        if (activity.status === 'Completed') {
+        if (activity.status === FunctionStatus.Completed) {
             return {
                 visible: true,
                 customizeText: (_: any) => arg.value,

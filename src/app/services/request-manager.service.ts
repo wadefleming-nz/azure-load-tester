@@ -8,6 +8,7 @@ import { FunctionStatusResponse } from '../models/function-status-response.model
 import { Activity } from '../models/activity.model';
 import { RequestMetrics } from '../models/request-metrics.model';
 import { getElapsedSecondsBetween } from '../utils/time.utils';
+import { FunctionStatus } from '../enums/function-status.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -23,7 +24,9 @@ export class RequestManagerService {
     );
 
     allCompleted$ = this.testInstanceResults$.pipe(
-        map((activities) => activities.every((a) => a.status === 'Completed'))
+        map((activities) =>
+            activities.every((a) => a.status === FunctionStatus.Completed)
+        )
     );
 
     constructor(private http: HttpClient) {}
@@ -65,7 +68,7 @@ export class RequestManagerService {
     pollFunctionUntilComplete(statusUrl: string) {
         return timer(0, this.statusPollDelay).pipe(
             switchMap(() => this.getStatus(statusUrl)),
-            takeWhile((status) => status != 'Completed', true)
+            takeWhile((status) => status != FunctionStatus.Completed, true)
         );
     }
 
