@@ -10,7 +10,8 @@ import { RequestManagerService } from 'src/app/services/request-manager.service'
 export class InputsComponent {
     numRequests = 1;
     endpointUrl =
-        'https://titan-functions-consumption.azurewebsites.net/api/PrimeNumber_HttpStart?';
+        'https://solverapi.azurewebsites.net/api/SolveDurableFunction_HttpStart';
+    payload = '';
 
     @Output()
     startClicked = new EventEmitter<TestInstance>();
@@ -22,6 +23,7 @@ export class InputsComponent {
             // TODO use setter
             numRequests: this.numRequests,
             endpointUrl: this.endpointUrl,
+            payload: this.payload,
         });
     }
 }

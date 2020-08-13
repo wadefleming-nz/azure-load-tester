@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, of, timer, combineLatest, Observable } from 'rxjs';
 import {
     switchMap,
@@ -27,7 +27,9 @@ export class RequestManagerService {
 
     testInstanceResults$ = this.testInstanceSubject.pipe(
         filter((ti) => !!ti),
-        switchMap((ti) => this.getResults(ti.numRequests, ti.endpointUrl)),
+        switchMap((ti) =>
+            this.getResults(ti.numRequests, ti.endpointUrl, ti.payload)
+        ),
         share()
     );
 
@@ -39,20 +41,24 @@ export class RequestManagerService {
 
     constructor(private http: HttpClient) {}
 
-    getResults(numRequests: number, requestUrl: string) {
+    getResults(numRequests: number, requestUrl: string, payload: string) {
         const requests$ = Array.from(Array(numRequests), (_, i) =>
-            this.createRequestObservable(i + 1, requestUrl)
+            this.createRequestObservable(i + 1, requestUrl, payload)
         );
         return combineLatest(requests$);
     }
 
     createRequestObservable(
         id: number,
-        requestUrl: string
+        requestUrl: string,
+        payload: string
     ): Observable<Activity> {
         return of([id]).pipe(
             switchMap(() => {
-                const startFunctionResponse$ = this.startFunction(requestUrl);
+                const startFunctionResponse$ = this.startFunction(
+                    requestUrl,
+                    payload
+                );
                 return startFunctionResponse$.pipe(
                     switchMap((startResponse) =>
                         this.pollFunctionUntilComplete(
@@ -67,8 +73,14 @@ export class RequestManagerService {
         );
     }
 
-    startFunction(functionUrl: string) {
-        return this.http.get<FunctionStartResponse>(functionUrl);
+    startFunction(functionUrl: string, payload: string) {
+        const headers = new HttpHeaders().append(
+            'Content-Type',
+            'application/json'
+        );
+        return this.http.post<FunctionStartResponse>(functionUrl, payload, {
+            headers,
+        });
     }
 
     // TODO reimplement with startFunctionResponse$ changes

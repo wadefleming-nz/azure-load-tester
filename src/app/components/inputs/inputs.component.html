@@ -18,7 +18,19 @@
             id="endpointUrl"
             name="endpointUrl"
             [(ngModel)]="endpointUrl" /></mat-form-field
-    ><br /><button mat-raised-button (click)="onStartClicked()" color="primary">
+    ><br />
+    <mat-form-field class="payload">
+        <mat-label>Payload</mat-label>
+        <textarea
+            matInput
+            rows="10"
+            id="payload"
+            name="payload"
+            [(ngModel)]="payload"
+        ></textarea>
+    </mat-form-field>
+    <br />
+    <button mat-raised-button (click)="onStartClicked()" color="primary">
         Start
     </button>
 </form>
