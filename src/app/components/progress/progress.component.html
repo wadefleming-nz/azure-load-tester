@@ -22,3 +22,13 @@
     ></dxi-value-axis>
     <dxo-legend [visible]="false"></dxo-legend>
 </dx-chart>
+
+<div *ngFor="let activity of data$ | async">
+    <p>Request Id: {{ activity.requestId }}</p>
+    <p>
+        Status Url:
+        <a href="{{ activity.statusUrl }}" target="_blank">{{
+            activity.statusUrl
+        }}</a>
+    </p>
+</div>
