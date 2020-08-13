@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
+import { StatusViewerService } from 'src/app/services/status-viewer.service';
 import { Activity } from '../../models/activity.model';
 import { FunctionStatus } from '../../enums/function-status.enum';
 
@@ -21,7 +22,12 @@ export class ProgressComponent {
         Completed: '#06c723',
     };
 
-    constructor(public requestManager: RequestManagerService) {}
+    constructor(
+        public requestManager: RequestManagerService,
+        private statusViewer: StatusViewerService
+    ) {
+        this.data$.subscribe(console.log);
+    }
 
     customizeLabel = (arg: any) => {
         const activity = arg.data as Activity;
@@ -49,6 +55,6 @@ export class ProgressComponent {
 
     seriesClicked(e: any) {
         const series = e.target;
-        console.log('clicked');
+        // TODO this.statusViewer.viewStatus(null);
     }
 }
