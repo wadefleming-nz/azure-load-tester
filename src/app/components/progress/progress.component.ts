@@ -46,4 +46,9 @@ export class ProgressComponent {
             hoverStyle: { color },
         };
     }
+
+    seriesClicked(e: any) {
+        const series = e.target;
+        console.log('clicked');
+    }
 }

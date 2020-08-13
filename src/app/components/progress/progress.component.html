@@ -4,6 +4,7 @@
     [rotated]="true"
     [customizeLabel]="(allCompleted$ | async) && customizeLabel"
     [customizePoint]="customizePoint"
+    (onSeriesClick)="seriesClicked($event)"
 >
     <dxi-series
         argumentField="requestId"
