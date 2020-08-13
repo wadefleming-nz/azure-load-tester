@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, of, timer, combineLatest, Observable } from 'rxjs';
-import { switchMap, filter, map, share, takeWhile, scan } from 'rxjs/operators';
+import {
+    switchMap,
+    filter,
+    map,
+    share,
+    takeWhile,
+    scan,
+    withLatestFrom,
+} from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
 import { FunctionStatusResponse } from '../models/function-status-response.model';
@@ -43,13 +51,19 @@ export class RequestManagerService {
         requestUrl: string
     ): Observable<Activity> {
         return of([id]).pipe(
-            switchMap(() =>
-                this.startFunction(requestUrl).pipe(
-                    this.pollFunction.bind(this),
+            switchMap(() => {
+                const startFunctionResponse$ = this.startFunction(requestUrl);
+                return startFunctionResponse$.pipe(
+                    switchMap((startResponse) =>
+                        this.pollFunctionUntilComplete(
+                            startResponse.statusQueryGetUri
+                        )
+                    ),
                     this.accumulateRequestMetrics(id),
+                    withLatestFrom(startFunctionResponse$),
                     this.convertToActivity
-                )
-            )
+                );
+            })
         );
     }
 
@@ -57,13 +71,14 @@ export class RequestManagerService {
         return this.http.get<FunctionStartResponse>(functionUrl);
     }
 
-    pollFunction(startResponse: Observable<FunctionStartResponse>) {
-        return startResponse.pipe(
-            switchMap((startResponse) =>
-                this.pollFunctionUntilComplete(startResponse.statusQueryGetUri)
-            )
-        );
-    }
+    // TODO reimplement with startFunctionResponse$ changes
+    // pollFunction(startResponse: Observable<FunctionStartResponse>) {
+    //     return startResponse.pipe(
+    //         switchMap((startResponse) =>
+    //             this.pollFunctionUntilComplete(startResponse.statusQueryGetUri)
+    //         )
+    //     );
+    // }
 
     pollFunctionUntilComplete(statusUrl: string) {
         return timer(0, this.statusPollDelay).pipe(
@@ -98,16 +113,17 @@ export class RequestManagerService {
     }
 
     convertToActivity(
-        metrics: Observable<RequestMetrics>
+        args: Observable<[RequestMetrics, FunctionStartResponse]>
     ): Observable<Activity> {
-        return metrics.pipe(
-            map((metrics) => ({
+        return args.pipe(
+            map(([metrics, startResponse]) => ({
                 requestId: metrics.requestId,
                 secondsDuration: getElapsedSecondsBetween(
                     metrics.startTime,
                     metrics.currTime
                 ),
                 status: metrics.status,
+                statusUrl: startResponse.statusQueryGetUri,
             }))
         );
     }
