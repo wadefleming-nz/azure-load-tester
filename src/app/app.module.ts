@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivityDetailsComponent } from './components/activity-details/activity-details.component';
 
 @NgModule({
     declarations: [
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
         InputsComponent,
         LoadTesterComponent,
         ProgressComponent,
+        ActivityDetailsComponent,
     ],
     imports: [
         BrowserModule,
