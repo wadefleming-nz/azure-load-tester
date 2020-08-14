@@ -96,16 +96,14 @@ export class RequestManagerService {
         return timer(0, this.statusPollDelay).pipe(
             switchMap(() => this.getStatus(statusUrl)),
             takeWhile(
-                (status) => status.runtimeStatus != FunctionStatus.Completed,
+                (status) => status.runtimeStatus !== FunctionStatus.Completed,
                 true
             )
         );
     }
 
     getStatus(statusUrl: string) {
-        return this.http
-            .get<FunctionStatusResponse>(statusUrl)
-            .pipe(map((statusResponse) => statusResponse));
+        return this.http.get<FunctionStatusResponse>(statusUrl);
     }
 
     accumulateRequestMetrics(id: number) {

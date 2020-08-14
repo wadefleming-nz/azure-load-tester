@@ -25,10 +25,8 @@ export class ActivityDetailsComponent {
     assignSolutionStatistics(solution: any) {
         this.scenarioName = solution.ScenarioName;
         this.notLoadsCount = solution.NotLoads.length;
-        solution.Routes.reduce((prev, cur) => {
-            const prevCost = prev && prev.Cost ? prev.Cost : 0;
-            const curCost = cur && cur.Cost ? cur.Cost : 0;
-            this.totalCost = this.totalCost + prevCost + curCost;
-        });
+        this.totalCost = solution.Routes.map((r) => r.Cost).reduce(
+            (prev, cur) => prev + cur
+        );
     }
 }
