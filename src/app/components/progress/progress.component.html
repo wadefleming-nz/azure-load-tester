@@ -22,3 +22,9 @@
     ></dxi-value-axis>
     <dxo-legend [visible]="false"></dxo-legend>
 </dx-chart>
+
+<div *ngFor="let activity of data$ | async">
+    <div *ngIf="activity.status == 'Completed'">
+        <app-activity-details [activity]="activity"></app-activity-details>
+    </div>
+</div>

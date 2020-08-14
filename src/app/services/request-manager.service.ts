@@ -95,30 +95,35 @@ export class RequestManagerService {
     pollFunctionUntilComplete(statusUrl: string) {
         return timer(0, this.statusPollDelay).pipe(
             switchMap(() => this.getStatus(statusUrl)),
-            takeWhile((status) => status != FunctionStatus.Completed, true)
+            takeWhile(
+                (status) => status.runtimeStatus != FunctionStatus.Completed,
+                true
+            )
         );
     }
 
     getStatus(statusUrl: string) {
         return this.http
             .get<FunctionStatusResponse>(statusUrl)
-            .pipe(map((statusResponse) => statusResponse.runtimeStatus));
+            .pipe(map((statusResponse) => statusResponse));
     }
 
     accumulateRequestMetrics(id: number) {
-        return (statusResponse: Observable<string>) =>
+        return (statusResponse: Observable<FunctionStatusResponse>) =>
             statusResponse.pipe(
-                scan<string, RequestMetrics>(
+                scan<FunctionStatusResponse, RequestMetrics>(
                     (acc, curr) => ({
                         ...acc,
                         currTime: new Date(),
-                        status: curr,
+                        status: curr.runtimeStatus,
+                        response: curr,
                     }),
                     {
                         requestId: id,
                         startTime: new Date(),
                         currTime: new Date(),
                         status: '',
+                        response: null,
                     }
                 )
             );
@@ -136,6 +141,7 @@ export class RequestManagerService {
                 ),
                 status: metrics.status,
                 statusUrl: startResponse.statusQueryGetUri,
+                response: metrics.response,
             }))
         );
     }
