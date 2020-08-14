@@ -5,6 +5,7 @@ import { Activity } from 'src/app/models/activity.model';
 @Component({
     selector: 'app-activity-details',
     templateUrl: './activity-details.component.html',
+    styleUrls: ['./activity-details.component.less'],
 })
 export class ActivityDetailsComponent {
     private _activity: Activity;
