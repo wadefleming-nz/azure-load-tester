@@ -1,13 +1,15 @@
-<div class="activity-details">
-    <p>Request Id: {{ activity.requestId }}</p>
-    <p>Scenario name: {{ scenarioName }}</p>
-    <p>Notloads count: {{ notLoadsCount }}</p>
-    <p>Total cost: {{ totalCost }}</p>
-    <p>Status: {{ activity.status }}</p>
-    <p>
-        Status Url:
-        <a href="{{ activity.statusUrl }}" target="_blank">{{
-            activity.statusUrl
-        }}</a>
-    </p>
-</div>
+<mat-card class="mat-card-outline mat-elevation-z0">
+    <mat-card-content>
+        <p>Request Id: {{ activity.requestId }}</p>
+        <p>Scenario name: {{ scenarioName }}</p>
+        <p>Notloads count: {{ notLoadsCount }}</p>
+        <p>Total cost: {{ totalCost }}</p>
+        <p>Status: {{ activity.status }}</p>
+        <p>
+            Status Url:
+            <a href="{{ activity.statusUrl }}" target="_blank">{{
+                activity.statusUrl
+            }}</a>
+        </p>
+    </mat-card-content>
+</mat-card>
