@@ -9,6 +9,7 @@ import {
     takeWhile,
     scan,
     withLatestFrom,
+    shareReplay,
 } from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
@@ -58,7 +59,7 @@ export class RequestManagerService {
                 const startFunctionResponse$ = this.startFunction(
                     requestUrl,
                     payload
-                );
+                ).pipe(shareReplay(1));
                 return startFunctionResponse$.pipe(
                     switchMap((startResponse) =>
                         this.pollFunctionUntilComplete(
