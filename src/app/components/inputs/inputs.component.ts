@@ -8,9 +8,9 @@ import { RequestManagerService } from 'src/app/services/request-manager.service'
     styleUrls: ['./inputs.component.less'],
 })
 export class InputsComponent {
-    numRequests = 1;
+    numRequests = 4;
     endpointUrl =
-        'https://solverapi.azurewebsites.net/api/SolveDurableFunction_HttpStart';
+        'https://loadsimulator.azurewebsites.net/api/SimulateLoadFunction_HttpStart';
     payload = '';
 
     @Output()
