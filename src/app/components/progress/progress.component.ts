@@ -9,7 +9,7 @@ import { FunctionStatus } from '../../enums/function-status.enum';
     styleUrls: ['./progress.component.less'],
 })
 export class ProgressComponent {
-    timeAxisMaxSeconds = 1000;
+    timeAxisMaxSeconds = 100;
     visibleRange = [0, this.timeAxisMaxSeconds];
 
     data$ = this.requestManager.testInstanceResults$;
