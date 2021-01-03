@@ -9,6 +9,7 @@ import {
     takeWhile,
     scan,
     withLatestFrom,
+    shareReplay,
 } from 'rxjs/operators';
 import { TestInstance } from '../models/test-instance.model';
 import { FunctionStartResponse } from '../models/function-start-response.model';
@@ -78,9 +79,11 @@ export class RequestManagerService {
             'Content-Type',
             'application/json'
         );
-        return this.http.post<FunctionStartResponse>(functionUrl, payload, {
-            headers,
-        });
+        return this.http
+            .post<FunctionStartResponse>(functionUrl, payload, {
+                headers,
+            })
+            .pipe(shareReplay(1));
     }
 
     // TODO reimplement with startFunctionResponse$ changes
@@ -100,9 +103,10 @@ export class RequestManagerService {
     }
 
     getStatus(statusUrl: string) {
-        return this.http
-            .get<FunctionStatusResponse>(statusUrl)
-            .pipe(map((statusResponse) => statusResponse.runtimeStatus));
+        return this.http.get<FunctionStatusResponse>(statusUrl).pipe(
+            shareReplay(1),
+            map((statusResponse) => statusResponse.runtimeStatus)
+        );
     }
 
     accumulateRequestMetrics(id: number) {
