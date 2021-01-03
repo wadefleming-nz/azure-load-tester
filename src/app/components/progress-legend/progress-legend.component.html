@@ -1,8 +1,11 @@
 <div class="container">
-    <div class="color">Red</div>
+    <div class="color" [style.background-color]="statusColors['Pending']"></div>
     <div class="label">Pending</div>
-    <div class="color">Orange</div>
+    <div class="color" [style.background-color]="statusColors['Running']"></div>
     <div class="label">Running</div>
-    <div class="color">Green</div>
+    <div
+        class="color"
+        [style.background-color]="statusColors['Completed']"
+    ></div>
     <div class="label">Completed</div>
 </div>
