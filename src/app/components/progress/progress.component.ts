@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RequestManagerService } from 'src/app/services/request-manager.service';
 import { Activity } from '../../models/activity.model';
 import { FunctionStatus } from '../../enums/function-status.enum';
+import { statusColors } from 'src/app/constants/status-colors.constant';
 
 @Component({
     selector: 'app-progress',
@@ -14,12 +15,6 @@ export class ProgressComponent {
 
     data$ = this.requestManager.testInstanceResults$;
     allCompleted$ = this.requestManager.allCompleted$;
-
-    statusColors: Record<string, string> = {
-        Pending: '#f25252',
-        Running: '#f7ae39',
-        Completed: '#06c723',
-    };
 
     constructor(public requestManager: RequestManagerService) {}
 
@@ -36,7 +31,7 @@ export class ProgressComponent {
     customizePoint = (arg: any) => {
         const activity = arg.data as Activity;
         return this.getColoredBarPointCustomization(
-            this.statusColors[activity.status]
+            statusColors[activity.status]
         );
     };
 
