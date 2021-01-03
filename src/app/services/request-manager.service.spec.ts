@@ -30,5 +30,6 @@ describe('RequestManagerService', () => {
         });
 
         httpTestingController.expectOne('http://mock-function-start-endpoint');
+        httpTestingController.verify();
     });
 });
