@@ -25,10 +25,10 @@ describe('RequestManagerService', () => {
 
         service.testInstanceSubject.next({
             numRequests: 1,
-            endpointUrl: 'http://test-endpoint',
+            endpointUrl: 'http://mock-function-start-endpoint',
             payload: null,
         });
 
-        httpTestingController.expectOne('http://test-endpoint');
+        httpTestingController.expectOne('http://mock-function-start-endpoint');
     });
 });
