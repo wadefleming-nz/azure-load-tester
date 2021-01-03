@@ -1,27 +1,22 @@
-# AzureLoadTester
+## Azure Load Tester
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.4.
+This application visualizes the progress of concurrent executions of a given Azure Durable Function. 
 
-## Development server
+It can be used to observe if the functions are scaling as required/expected, and to observe function completion times and behaviour when under load.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Demo
 
-## Code scaffolding
+https://quirky-jackson-b566d9.netlify.app/
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Source code
 
-## Build
+https://github.com/wflemingnz/azure-load-tester
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+# Technologies
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Angular
+- Angular Material
+- RxJS
+- Typescript
+- DevExtreme Charts
+- Jest
