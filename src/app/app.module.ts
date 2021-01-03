@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { InputsComponent } from './components/inputs/inputs.component';
 import { LoadTesterComponent } from './components/load-tester/load-tester.component';
 import { ProgressComponent } from './components/progress/progress.component';
+import { ProgressLegendComponent } from './components/progress-legend/progress-legend.component';
 import { DxChartModule } from 'devextreme-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
         InputsComponent,
         LoadTesterComponent,
         ProgressComponent,
+        ProgressLegendComponent,
     ],
     imports: [
         BrowserModule,
