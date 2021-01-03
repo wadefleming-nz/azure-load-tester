@@ -3,14 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { RequestManagerService } from './request-manager.service';
 
 describe('RequestManagerService', () => {
-  let service: RequestManagerService;
+    let service: RequestManagerService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(RequestManagerService);
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({ providers: [RequestManagerService] });
+        service = TestBed.inject(RequestManagerService);
+    });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(service).toBeTruthy();
+    });
 });
