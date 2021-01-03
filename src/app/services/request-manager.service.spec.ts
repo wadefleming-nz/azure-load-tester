@@ -22,6 +22,7 @@ describe('RequestManagerService', () => {
         const httpTestingController = TestBed.inject(HttpTestingController);
 
         service.testInstanceResults$.subscribe();
+        service.allCompleted$.subscribe();
 
         service.testInstanceSubject.next({
             numRequests: 1,
