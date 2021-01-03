@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { RequestManagerService } from './request-manager.service';
 
 describe('RequestManagerService', () => {
     let service: RequestManagerService;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({ providers: [RequestManagerService] });
+        TestBed.configureTestingModule({
+            imports: [HttpClientModule],
+            providers: [RequestManagerService],
+        });
         service = TestBed.inject(RequestManagerService);
     });
 
