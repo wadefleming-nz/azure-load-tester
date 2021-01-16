@@ -1,4 +1,4 @@
-## Azure Load Tester
+# Azure Load Tester
 
 This application visualizes the progress of concurrent executions of a given Azure Durable Function. 
 
@@ -12,7 +12,7 @@ https://quirky-jackson-b566d9.netlify.app/
 
 https://github.com/wflemingnz/azure-load-tester
 
-# Technologies
+## Technologies
 
 - Angular
 - Angular Material
